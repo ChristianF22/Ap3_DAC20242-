@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Cadastro de Jogo</title>
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
+</h:head>
+<h:body>
+    <div class="form-container">
+        <h2>Cadastro de Jogo</h2>
+
+        <h:form id="formCadastroJogo">
+            <p:messages id="msgCadastroJogo" autoUpdate="true" showDetail="true" />
+
+            <p:panelGrid columns="2" style="width: 100%;" columnClasses="label,value">
+                <p:outputLabel for="dataPartida" value="Data da Partida:" />
+                <p:calendar id="dataPartida" value="#{jogoBean.jogo.dataPartida}" required="true"
+                            pattern="dd/MM/yyyy HH:mm" showTime="true" />
+
+                <p:outputLabel for="time1" value="Time 1:" />
+                <p:selectOneMenu id="time1" value="#{jogoBean.jogo.time1}" required="true">
+                    <f:selectItem itemLabel="Selecione um Time" itemValue="" noSelectionOption="true" />
+                    <f:selectItem itemLabel="A" itemValue="A" />
+                    <f:selectItem itemLabel="B" itemValue="B" />
+                    <f:selectItem itemLabel="C" itemValue="C" />
+                </p:selectOneMenu>
+
+                <p:outputLabel for="time2" value="Time 2:" />
+                <p:selectOneMenu id="time2" value="#{jogoBean.jogo.time2}" required="true">
+                    <f:selectItem itemLabel="Selecione um Time" itemValue="" noSelectionOption="true" />
+                    <f:selectItem itemLabel="A" itemValue="A" />
+                    <f:selectItem itemLabel="B" itemValue="B" />
+                    <f:selectItem itemLabel="C" itemValue="C" />
+                </p:selectOneMenu>
+
+                <p:outputLabel for="golsTime1" value="Gols Time 1:" />
+                <p:inputText id="golsTime1" value="#{jogoBean.jogo.golsTime1}" required="true" />
+
+                <p:outputLabel for="golsTime2" value="Gols Time 2:" />
+                <p:inputText id="golsTime2" value="#{jogoBean.jogo.golsTime2}" required="true" />
+
+                <p:outputLabel for="campeonato" value="Campeonato:" />
+                <p:selectOneMenu id="campeonato" value="#{jogoBean.jogo.campeonato.id}" required="true">
+                    <f:selectItem itemLabel="Selecione um Campeonato" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{jogoBean.campeonatos}" var="camp"
+                                   itemLabel="#{camp.nome}" itemValue="#{camp.id}" />
+                </p:selectOneMenu>
+            </p:panelGrid>
+
+            <div class="action-buttons">
+                <p:commandButton value="Salvar" action="#{jogoBean.salvar}" update="msgCadastroJogo" icon="pi pi-save" />
+                 <h:button value="Listar Jogos" outcome="listagem.xhtml" />
+            </div>
+        </h:form>
+    </div>
+</h:body>
+</html>

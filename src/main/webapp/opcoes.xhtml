@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Opções</title>
+    <style>
+       body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007ad9; 
+            color: white;
+            padding: 10px 20px;
+        }
+
+        .navbar .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .navbar .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .navbar .logout-button {
+            background-color: #e74c3c; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .navbar .logout-button:hover {
+            background-color: #c0392b;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .content h2 {
+            margin-bottom: 20px;
+        }
+
+        .content .action-button {
+            margin-top: 10px;
+        }
+    </style>
+</h:head>
+<h:body>
+   
+    <f:metadata>
+        <f:event listener="#{usuarioBean.verificarLogin}" type="preRenderView" />
+    </f:metadata>
+
+ 
+    <div class="navbar">
+        <div class="logo">OS MELHORES JOGOS</div>
+        <h:form>
+            <p:commandButton value="Sair" action="#{usuarioBean.sair}" styleClass="logout-button" />
+        </h:form>
+    </div>
+
+   
+      <div class="content">
+        <h2>Bem-vindo, #{usuarioBean.usuario.login}</h2>
+        
+      
+        <h:form>
+            <p:commandButton value="Ver Usuários Cadastrados" icon="pi pi-users" styleClass="action-button"
+                             onclick="PF('dlgUsuarios').show();" />
+        </h:form>
+        
+        <h:form>
+            <p:commandButton value="Cadastrar Campeonato" icon="pi pi-plus" styleClass="action-button" 
+                         action="cadastro_campeonato.xhtml?faces-redirect=true" />
+        </h:form>
+        
+        <h:form>
+            <p:commandButton value="Cadastrar Jogo" icon="pi pi-plus" styleClass="action-button" 
+                         action="cadastro_jogo.xhtml?faces-redirect=true" />
+        </h:form>
+        
+        <h:form>
+        
+               <p:commandButton value="Listar Jogos" icon="pi pi-list" styleClass="action-button" 
+                         action="listagem.xhtml?faces-redirect=true" />
+        </h:form>
+
+    
+        <p:dialog header="Usuários Cadastrados" widgetVar="dlgUsuarios" modal="true" closable="true" resizable="false" width="400px">
+             <h:form>
+		        <p:dataTable id="tabela" value="#{usuarioBean.usuarios}" var="usuario" style="width:100%;" 
+		                     emptyMessage="Nenhum usuário encontrado.">
+		            <p:column headerText="ID">
+		                <h:outputText value="#{usuario.id}" />
+		            </p:column>
+		            <p:column headerText="Login">
+		                <h:outputText value="#{usuario.login}" />
+		            </p:column>
+		            <p:column headerText="Nome">
+		                <h:outputText value="#{usuario.nome}" />
+		            </p:column>
+		        </p:dataTable>
+          </h:form>
+        </p:dialog>
+    </div>
+</h:body>
+</html>

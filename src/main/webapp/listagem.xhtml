@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Listagem de Jogos</title>
+</h:head>
+<h:body>
+
+    <h:form id="formListagemJogos">
+        <p:panel header="Listagem de Jogos">
+          
+            <p:messages id="msgsListagem" autoUpdate="true" showDetail="true" closable="true" />
+
+            <p:dataTable id="tabelaJogos" value="#{jogoBean.jogos}" var="jogo" style="width: 100%;" 
+                         rowKey="#{jogo.id}" selectionMode="single">
+                <p:column headerText="Time 1">
+                    <h:outputText value="#{jogo.time1}" />
+                </p:column>
+                <p:column headerText="Time 2">
+                    <h:outputText value="#{jogo.time2}" />
+                </p:column>
+                <p:column headerText="Data">
+                    <h:outputText value="#{jogo.dataPartida}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Campeonato">
+                    <h:outputText value="#{jogo.campeonato.nome}" />
+                </p:column>
+
+      
+                <p:column headerText="Editar">
+                    <p:commandButton icon="pi pi-pencil" 
+                                     style="border: none; background: none; font-size: 1.5em; color: blue;" 
+                                     actionListener="#{jogoBean.selecionarParaEdicao(jogo)}" 
+                                     oncomplete="PF('modalEditar').show()" 
+                                     update=":formEditarJogo" />
+                </p:column>
+
+       
+                <p:column headerText="Excluir">
+                    <p:commandButton icon="pi pi-trash" 
+                                     action="#{jogoBean.excluir(jogo)}" 
+                                     update="formListagemJogos:msgsListagem formListagemJogos:tabelaJogos" 
+                                     style="border: none; background: none; font-size: 1.5em; color: red;" />
+                </p:column>
+            </p:dataTable>
+
+            <div style="margin-top: 10px;">
+                <p:commandButton value="Novo Jogo" action="cadastro_jogo.xhtml?faces-redirect=true" 
+                                 icon="pi pi-plus" />
+            </div>
+            <div style="margin-top: 10px;">
+                <p:commandButton value="Voltar para o Menu" action="opcoes.xhtml?faces-redirect=true" 
+                                 icon="pi pi-users" />
+            </div>
+        </p:panel>
+    </h:form> 
+
+
+    <p:dialog id="modalEditar" widgetVar="modalEditar" header="Editar Jogo" modal="true" resizable="false" width="500px">
+        <h:form id="formEditarJogo">
+            <p:panelGrid columns="2" style="width: 100%;">
+                <h:outputLabel value="Time 1:" for="time1" />
+                <p:inputText id="time1" value="#{jogoBean.jogo.time1}" required="true" />
+
+                <h:outputLabel value="Time 2:" for="time2" />
+                <p:inputText id="time2" value="#{jogoBean.jogo.time2}" required="true" />
+
+                <h:outputLabel value="Data:" for="data" />
+                <p:calendar id="data" value="#{jogoBean.jogo.dataPartida}" pattern="dd/MM/yyyy HH:mm" showTime="true" required="true" />
+
+                <h:outputLabel value="Campeonato:" for="campeonato" />
+                <p:selectOneMenu id="campeonato" value="#{jogoBean.jogo.campeonato.id}" required="true">
+                    <f:selectItems value="#{jogoBean.campeonatos}" var="campeonato"
+                                   itemValue="#{campeonato.id}" itemLabel="#{campeonato.nome}" />
+                </p:selectOneMenu>
+            </p:panelGrid>
+
+        
+           <p:commandButton value="Salvar" action="#{jogoBean.editar}" process="@form"
+                 update="formListagemJogos:msgsListagem formListagemJogos:tabelaJogos" 
+                 oncomplete="PF('modalEditar').hide()" />
+            <p:commandButton value="Cancelar" type="button" onclick="PF('modalEditar').hide()" />
+        </h:form> 
+    </p:dialog> 
+</h:body>
+</html>

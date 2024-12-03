@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Usuários</title>
+    <h:outputStylesheet>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-panel {
+            width: 300px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-panel h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-panel .input-field {
+            margin-bottom: 15px;
+        }
+
+        .login-panel p:commandButton {
+            width: 100%;
+        }
+
+        .login-panel .register-link {
+            text-align: center;
+            margin-top: 10px;
+            display: block;
+        }
+    </h:outputStylesheet>
+</h:head>
+<h:body>
+
+    <h:form id="formLogin">
+        <p:panel header="Login" class="login-panel">
+            <h2>Login</h2>
+            
+        
+            <p:messages id="msgLogin" autoUpdate="true" showDetail="true" />
+
+            <p:panelGrid columns="1" styleClass="input-fields" columnClasses="input-field">   
+             
+                <p:inputText id="login" value="#{usuarioBean.usuario.login}" placeholder="Login" required="true" />     
+                <p:password id="senha" value="#{usuarioBean.usuario.senha}" placeholder="Senha" required="true" />
+            </p:panelGrid>
+
+       
+            <p:commandButton value="Entrar" action="#{usuarioBean.login}" update="msgLogin formLogin" />
+        
+            <h:form id="formCadastroLink">
+                <p:commandButton icon="pi pi-user" styleClass="rounded-button ui-button-info" 
+                                 onclick="PF('dlgCadastro').show();" style="margin-top: 20px;" />
+            </h:form>
+        </p:panel>
+    </h:form>
+
+    <!-- Tela modal para cadastrar o usuário quando clicar no iconi do cadastro na tela de login -->
+    <p:dialog header="Cadastro de Usuário" widgetVar="dlgCadastro" modal="true" closable="true" resizable="false">
+        <h:form id="formCadastro">
+         
+            <p:messages id="msgCadastro" autoUpdate="true" showDetail="true" />
+
+          
+            <p:panelGrid columns="2" style="margin-bottom: 20px;" columnClasses="label,value">
+                <p:outputLabel value="Login:" for="loginCadastro" />
+                <p:inputText id="loginCadastro" value="#{usuarioBean.usuario.login}" required="true" />
+
+                <p:outputLabel value="Nome:" for="nomeCadastro" />
+                <p:inputText id="nomeCadastro" value="#{usuarioBean.usuario.nome}" required="true" />
+
+                <p:outputLabel value="Senha:" for="senhaCadastro" />
+                <p:password id="senhaCadastro" value="#{usuarioBean.usuario.senha}" required="true" />
+            </p:panelGrid>
+
+            
+            <p:commandButton value="Salvar" action="#{usuarioBean.salvar}" update="msgCadastro formCadastro" 
+                             oncomplete="PF('dlgCadastro').hide();" />
+        </h:form>
+    </p:dialog>
+
+</h:body>
+</html>

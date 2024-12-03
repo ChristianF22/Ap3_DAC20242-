@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Cadastro de Campeonato</title>
+</h:head>
+<h:body>
+    <h:form id="formCadastroCampeonato">
+        <p:panel header="Cadastro de Campeonato">
+            <p:messages id="msgs" autoUpdate="true" />
+
+            <p:panelGrid columns="2" columnClasses="label,value" style="margin-bottom: 20px;">
+                <p:outputLabel value="Nome:" for="nome" />
+                <p:inputText id="nome" value="#{campeonatoBean.campeonato.nome}" required="true" 
+                             label="Nome do Campeonato" />
+            </p:panelGrid>
+
+            <p:commandButton value="Salvar" action="#{campeonatoBean.salvar}" update="msgs" 
+                             oncomplete="PF('dlgSucesso').show()" />
+
+           
+            <h:button value="Voltar para o Menu" outcome="opcoes.xhtml" />
+        </p:panel>
+    </h:form>
+
+    <p:dialog header="Sucesso" widgetVar="dlgSucesso" modal="true" closable="false" resizable="false">
+        <h:outputText value="Campeonato salvo com sucesso!" />
+        <p:commandButton value="Ok" onclick="PF('dlgSucesso').hide();" />
+    </p:dialog>
+</h:body>
+</html>
